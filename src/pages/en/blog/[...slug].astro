@@ -1,27 +1,25 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-import { getLangFromUrl } from '../../i18n/utils';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts
-    .filter((post) => post.data.lang === 'ja')
+    .filter((post) => post.data.lang === 'en')
     .map((post) => ({
-      params: { slug: post.id.replace(/^ja\//, '') },
+      params: { slug: post.id.replace(/^en\//, '') },
       props: { post },
     }));
 }
 
 const { post } = Astro.props;
 const { Content } = await render(post);
-const lang = getLangFromUrl(Astro.url);
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
   <section class="bg-dark-navy text-white pt-28 pb-12 text-center px-6">
     <div class="text-[10px] tracking-[3px] uppercase text-gold mb-3">
-      {new Date(post.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
       {' — '}
       <span class="capitalize">{post.data.category}</span>
     </div>

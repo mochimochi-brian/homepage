@@ -1,8 +1,8 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Starfield from '../components/Starfield.astro';
-import SectionDivider from '../components/SectionDivider.astro';
-import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Starfield from '../../components/Starfield.astro';
+import SectionDivider from '../../components/SectionDivider.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
 import { getCollection } from 'astro:content';
 
 const lang = getLangFromUrl(Astro.url);
@@ -119,7 +119,7 @@ const latestPosts = allPosts
       {latestPosts.length > 0 ? (
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           {latestPosts.map((post) => (
-            <a href={getLocalizedPath(`/blog/${post.id.replace(/^ja\//, '')}`, lang)} class="bg-white/5 border border-white/5 p-5 hover:bg-white/10 transition-colors group">
+            <a href={getLocalizedPath(`/blog/${post.id.replace(/^en\//, '')}`, lang)} class="bg-white/5 border border-white/5 p-5 hover:bg-white/10 transition-colors group">
               <div class="text-[10px] text-gold tracking-wider">
                 {new Date(post.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: '2-digit' })}
               </div>

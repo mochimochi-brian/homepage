@@ -1,7 +1,7 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../../i18n/utils';
 import { getCollection } from 'astro:content';
 
 const lang = getLangFromUrl(Astro.url);
@@ -13,7 +13,7 @@ const posts = allPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
-<BaseLayout title="Blog" description="研究・音楽に関する記事">
+<BaseLayout title="Blog" description="Articles on research and music">
   <PageHeader title="Blog" subtitle={t('section.thoughts')} />
 
   <section class="bg-ivory py-16 px-6">
@@ -34,14 +34,14 @@ const posts = allPosts
       <!-- Posts -->
       <div class="space-y-4 reveal">
         {posts.map((post) => (
-          <a href={getLocalizedPath(`/blog/${post.id.replace(/^ja\//, '')}`, lang)} class="block bg-white p-5 hover:shadow-md transition-shadow group">
+          <a href={getLocalizedPath(`/blog/${post.id.replace(/^en\//, '')}`, lang)} class="block bg-white p-5 hover:shadow-md transition-shadow group">
             <div class="grid grid-cols-[100px_1fr] gap-4">
               <div class="h-20 bg-ivory flex items-center justify-center">
                 <span class="text-text-muted text-[10px]">{post.data.category.toUpperCase()}</span>
               </div>
               <div>
                 <div class="text-[10px] text-gold mb-1">
-                  {new Date(post.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                  {new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
                   {' — '}
                   <span class="capitalize">{post.data.category}</span>
                 </div>
@@ -55,9 +55,7 @@ const posts = allPosts
         ))}
 
         {posts.length === 0 && (
-          <p class="text-sm text-text-muted text-center py-8">
-            {lang === 'ja' ? '記事はまだありません。' : 'No posts yet.'}
-          </p>
+          <p class="text-sm text-text-muted text-center py-8">No posts yet.</p>
         )}
       </div>
     </div>

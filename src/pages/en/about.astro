@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const timeline = [
+  { year: '2017–2021', label: '北海道大学 理学部化学科', labelEn: 'B.Sc. Chemistry, Hokkaido University' },
+  { year: '2021–2023', label: '北海道大学大学院 総合化学院 量子化学研究室（修士）', labelEn: 'M.Sc. Quantum Chemistry Lab, Hokkaido University' },
+  { year: '2023–', label: '同 博士後期課程', labelEn: 'Ph.D. Candidate, Quantum Chemistry Lab' },
+  { year: '2024', label: '次世代AI博士人材フェローシップ 第1期生', labelEn: 'Next-Gen AI Ph.D. Fellowship, 1st Cohort' },
+  { year: '2024.09–11', label: 'Northeastern University 複雑ネットワーク研究所 訪問学生', labelEn: 'Visiting Student, Center for Complex Network Research, Northeastern University' },
+  { year: '2025.01–', label: 'D-RED 研究員', labelEn: 'D-RED Researcher' },
+  { year: '2025.04–', label: '日本学術振興会 特別研究員 DC2', labelEn: 'JSPS Research Fellow DC2' },
+];
+---
+
+<BaseLayout title="About" description="Profile and career of Burai Murayama">
+  <PageHeader title="About" subtitle="Profile & Career" />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Profile -->
+      <div class="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 mb-16 reveal">
+        <div class="w-48 h-56 bg-dark-navy mx-auto md:mx-0 flex items-center justify-center">
+          <span class="text-white/20 text-xs tracking-[2px]">PORTRAIT</span>
+        </div>
+        <div>
+          <h2 class="font-heading text-2xl text-dark-navy mb-4">Burai Murayama</h2>
+          <p class="text-sm text-text-subtle leading-relaxed mb-4">
+            Ph.D. candidate at the Quantum Chemistry Lab, Hokkaido University. Research focuses on computational chemistry and topological data analysis. Also active as a tenor vocalist, performing in operas and concerts based in Sapporo. Started vocal training at age 14 and studied at the New England Conservatory in Boston.
+          </p>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Career
+        </h3>
+        <div class="space-y-4">
+          {timeline.map((item) => (
+            <div class="grid grid-cols-[100px_1fr] gap-4 text-sm">
+              <span class="text-gold font-bold">{item.year}</span>
+              <span class="text-text-subtle">{item.labelEn}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

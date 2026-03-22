@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const publications = [
+  {
+    title: 'New Descriptors of Potential Energy Surface: Persistent Homology of Reaction Route Map',
+    journal: 'J. Comput. Chem. Jpn.',
+    year: 2024,
+    doi: 'https://doi.org/10.2477/jccj.2024-0015',
+  },
+  {
+    title: 'Reproducing the Reaction Route Map on the Shape Space',
+    journal: 'J. Chem. Theory Comput.',
+    year: 2023,
+    doi: 'https://doi.org/10.1021/acs.jctc.3c00834',
+  },
+  {
+    title: 'Characterizing Reaction Route Map of Realistic Molecular Reactions',
+    journal: 'J. Chem. Theory Comput.',
+    year: 2023,
+    doi: 'https://doi.org/10.1021/acs.jctc.3c00487',
+  },
+];
+---
+
+<BaseLayout title="Research" description="Research overview and publications">
+  <PageHeader title="Research" subtitle={t('section.publications')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Research Overview -->
+      <div class="mb-16 reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-4">Research Overview</h3>
+        <p class="text-sm text-text-subtle leading-relaxed">
+          My research develops new methods to compare "maps" of chemical reactions (reaction route maps). Unlike conventional methods that focus only on specific points, this approach reflects the connectivity of entire reaction pathways. By leveraging topology from mathematics, I quantify "connectivity" and "cycles" to ultimately classify and predict molecular properties from atomic composition.
+        </p>
+      </div>
+
+      <!-- Publications -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Publications
+        </h3>
+        <div class="space-y-4">
+          {publications.map((pub) => (
+            <div class="bg-white p-5 border-l-[3px] border-gold">
+              <h4 class="text-sm font-bold text-dark-navy leading-snug">{pub.title}</h4>
+              <p class="text-[11px] text-text-muted mt-2">{pub.journal}, {pub.year}</p>
+              {pub.doi && (
+                <a
+                  href={pub.doi}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-block mt-2 text-[10px] tracking-[1px] text-gold hover:text-gold-light transition-colors"
+                >
+                  DOI →
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

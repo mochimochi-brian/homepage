@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const operaHistory = [
+  { year: '2025.03', title: 'Don Giovanni', venue: 'hitaru' },
+  { year: '2024', title: 'Andrea Chénier — Newspaper Seller', venue: '' },
+  { year: '2024', title: 'Gianni Schicchi — Guccio', venue: '' },
+];
+---
+
+<BaseLayout title="Music" description="Vocal career and performance history">
+  <PageHeader title="Music" subtitle={t('section.tenor')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Profile -->
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 mb-16 reveal">
+        <div class="w-44 h-56 bg-dark-navy mx-auto md:mx-0 flex items-center justify-center">
+          <span class="text-white/20 text-xs tracking-[2px]">PORTRAIT</span>
+        </div>
+        <div>
+          <h3 class="font-heading text-xl text-dark-navy mb-3">Vocal Career</h3>
+          <p class="text-sm text-text-subtle leading-relaxed">
+            Started vocal training at age 14. Led the tenor section of the Hokkaido University Chorus to a Gold Prize at the All-Japan Choral Competition. Studied briefly with Jean Danton at the New England Conservatory in Boston, also serving as a church singer. Currently studying under Atsushi Okamoto and Hisako Tsunemori.
+          </p>
+        </div>
+      </div>
+
+      <!-- Opera History -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Opera & Concert History
+        </h3>
+        <div class="space-y-3">
+          {operaHistory.map((item) => (
+            <div class="grid grid-cols-[80px_1fr] gap-4 text-sm">
+              <span class="text-gold font-bold">{item.year}</span>
+              <span class="text-text-subtle">
+                {item.title}
+                {item.venue && <span class="text-text-muted"> ({item.venue})</span>}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
