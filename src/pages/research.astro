@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const publications = [
+  {
+    title: 'ポテンシャルエネルギー曲面の新記述子：反応経路地図のパーシステント・ホモロジー',
+    titleEn: 'New Descriptors of Potential Energy Surface: Persistent Homology of Reaction Route Map',
+    journal: 'J. Comput. Chem. Jpn.',
+    year: 2024,
+    doi: 'https://doi.org/10.2477/jccj.2024-0015',
+  },
+  {
+    title: 'Reproducing the Reaction Route Map on the Shape Space',
+    titleEn: 'Reproducing the Reaction Route Map on the Shape Space',
+    journal: 'J. Chem. Theory Comput.',
+    year: 2023,
+    doi: 'https://doi.org/10.1021/acs.jctc.3c00834',
+  },
+  {
+    title: 'Characterizing Reaction Route Map of Realistic Molecular Reactions',
+    titleEn: 'Characterizing Reaction Route Map of Realistic Molecular Reactions',
+    journal: 'J. Chem. Theory Comput.',
+    year: 2023,
+    doi: 'https://doi.org/10.1021/acs.jctc.3c00487',
+  },
+];
+---
+
+<BaseLayout title="Research" description="研究概要・論文リスト">
+  <PageHeader title="Research" subtitle={t('section.publications')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Research Overview -->
+      <div class="mb-16 reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-4">
+          {lang === 'ja' ? '研究概要' : 'Research Overview'}
+        </h3>
+        <p class="text-sm text-text-subtle leading-relaxed">
+          {lang === 'ja'
+            ? '化学反応がどのように進むかの「地図」（反応経路地図）を比較するための新しい方法を研究しています。従来の手法が特定のポイントのみに注目するのに対し、この研究では反応経路全体のつながりを反映できる点が特長です。数学のトポロジー（位相幾何学）を活用し、「つながり」と「循環」を定量化することで、最終的には原子組成から分子の性質を分類・予測することを目指しています。'
+            : 'My research develops new methods to compare "maps" of chemical reactions (reaction route maps). Unlike conventional methods that focus only on specific points, this approach reflects the connectivity of entire reaction pathways. By leveraging topology from mathematics, I quantify "connectivity" and "cycles" to ultimately classify and predict molecular properties from atomic composition.'}
+        </p>
+      </div>
+
+      <!-- Publications -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Publications
+        </h3>
+        <div class="space-y-4">
+          {publications.map((pub) => (
+            <div class="bg-white p-5 border-l-[3px] border-gold">
+              <h4 class="text-sm font-bold text-dark-navy leading-snug">
+                {lang === 'ja' ? pub.title : pub.titleEn}
+              </h4>
+              <p class="text-[11px] text-text-muted mt-2">{pub.journal}, {pub.year}</p>
+              {pub.doi && (
+                <a
+                  href={pub.doi}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-block mt-2 text-[10px] tracking-[1px] text-gold hover:text-gold-light transition-colors"
+                >
+                  DOI →
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

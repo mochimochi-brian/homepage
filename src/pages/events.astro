@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const allEvents = await getCollection('events');
+const events = allEvents
+  .filter((e) => e.data.lang === lang)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const upcoming = events.filter((e) => !e.data.past);
+const past = events.filter((e) => e.data.past);
+
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+---
+
+<BaseLayout title="Events" description="演奏会・講演予定">
+  <PageHeader title="Events" subtitle={t('section.performances')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Upcoming -->
+      {upcoming.length > 0 && (
+        <div class="mb-16 reveal">
+          <h3 class="font-heading text-xl text-dark-navy mb-6">{t('events.upcoming')}</h3>
+          <div class="space-y-4">
+            {upcoming.map((event) => {
+              const d = new Date(event.data.date);
+              return (
+                <div class="bg-white p-5 border-l-[3px] border-gold grid grid-cols-[80px_1fr] gap-4">
+                  <div>
+                    <div class="text-2xl font-heading text-dark-navy font-bold">
+                      {String(d.getMonth() + 1).padStart(2, '0')}
+                    </div>
+                    <div class="text-[10px] text-gold uppercase">{months[d.getMonth()]}</div>
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-dark-navy">{event.data.title}</h4>
+                    <p class="text-[11px] text-text-muted mt-1">{event.data.venue}</p>
+                    {event.data.url && (
+                      <a href={event.data.url} target="_blank" rel="noopener noreferrer" class="text-[10px] text-gold mt-2 inline-block hover:text-gold-light transition-colors">
+                        Details →
+                      </a>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <!-- Past -->
+      {past.length > 0 && (
+        <div class="reveal">
+          <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+            {t('events.past')}
+          </h3>
+          <div class="space-y-3">
+            {past.map((event) => {
+              const d = new Date(event.data.date);
+              return (
+                <div class="grid grid-cols-[80px_1fr] gap-4 text-sm">
+                  <span class="text-gold font-bold">
+                    {d.getFullYear()}.{String(d.getMonth() + 1).padStart(2, '0')}
+                  </span>
+                  <span class="text-text-subtle">
+                    {event.data.title}
+                    <span class="text-text-muted"> — {event.data.venue}</span>
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+</BaseLayout>

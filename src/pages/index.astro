@@ -1,0 +1,146 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Starfield from '../components/Starfield.astro';
+import SectionDivider from '../components/SectionDivider.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Get next upcoming event
+const allEvents = await getCollection('events');
+const now = new Date();
+const upcomingEvents = allEvents
+  .filter((e) => !e.data.past && e.data.lang === lang && new Date(e.data.date) >= now)
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime());
+const nextEvent = upcomingEvents[0];
+
+// Get latest blog posts
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .filter((p) => !p.data.draft && p.data.lang === lang)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 3);
+---
+
+<BaseLayout title="Home">
+  <!-- Hero Section -->
+  <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-deep-black to-dark-navy">
+    <Starfield />
+
+    <div class="relative z-10 text-center px-6">
+      <!-- Gradient fade lines + tagline -->
+      <div class="flex items-center gap-5 justify-center mb-6 opacity-0 animate-[fade-in_1.5s_ease_0.5s_forwards]">
+        <div class="flex-1 max-w-[120px] h-px bg-gradient-to-r from-transparent to-gold origin-right animate-[line-grow_1.2s_ease_0.8s_forwards] scale-x-0"></div>
+        <span class="text-[10px] tracking-[4px] uppercase text-gold">{t('hero.tagline')}</span>
+        <div class="flex-1 max-w-[120px] h-px bg-gradient-to-l from-transparent to-gold origin-left animate-[line-grow_1.2s_ease_0.8s_forwards] scale-x-0"></div>
+      </div>
+
+      <!-- Name -->
+      <h1 class="font-heading text-4xl md:text-6xl text-white tracking-[8px] md:tracking-[10px] font-light opacity-0 animate-[fade-up_1.2s_ease_1.2s_forwards]">
+        {t('hero.name')}
+      </h1>
+      <p class="text-sm md:text-base text-gold tracking-[6px] md:tracking-[8px] mt-2 opacity-0 animate-[fade-up_1s_ease_1.6s_forwards]">
+        {t('hero.nameJp')}
+      </p>
+
+      <!-- Subtitle -->
+      <div class="flex items-center gap-4 justify-center mt-6 opacity-0 animate-[fade-in_1s_ease_2s_forwards]">
+        <div class="flex-1 max-w-[60px] h-px bg-gradient-to-r from-transparent to-gold/25"></div>
+        <span class="text-[10px] tracking-[3px] uppercase text-white/40">{t('hero.subtitle')}</span>
+        <div class="flex-1 max-w-[60px] h-px bg-gradient-to-l from-transparent to-gold/25"></div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="absolute bottom-10 z-10 opacity-0 animate-[fade-in_1s_ease_3s_forwards,float_2s_ease-in-out_3s_infinite]">
+      <span class="text-gold/25 text-xl">↓</span>
+    </div>
+  </section>
+
+  <!-- Event Banner -->
+  {nextEvent && (
+    <section class="bg-gold text-deep-black py-6 text-center">
+      <div class="text-[10px] tracking-[4px] uppercase font-bold">{t('section.upcoming')}</div>
+      <div class="font-heading text-lg md:text-xl font-bold mt-1">
+        {nextEvent.data.title} — {new Date(nextEvent.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+      </div>
+      {nextEvent.data.venue && (
+        <div class="text-sm text-deep-black/70 mt-1">{nextEvent.data.venue}</div>
+      )}
+    </section>
+  )}
+
+  <!-- Two Worlds Section -->
+  <section class="bg-ivory py-16 md:py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <SectionDivider label={t('section.twoWorldsEn')} />
+        <h2 class="font-heading text-2xl md:text-3xl text-dark-navy mt-4">{t('section.twoWorlds')}</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+        <!-- Research -->
+        <div class="p-8 md:border-r border-dark-navy/10">
+          <div class="w-full h-40 bg-gradient-to-br from-dark-navy to-dark-navy/80 mb-4 flex items-center justify-center">
+            <span class="text-white/20 text-xs tracking-[2px]">RESEARCH IMAGE</span>
+          </div>
+          <h3 class="font-heading text-xl text-dark-navy mb-2">{t('section.research')}</h3>
+          <p class="text-sm text-text-subtle leading-relaxed">{t('section.researchDesc')}</p>
+          <a href={getLocalizedPath('/research', lang)} class="inline-block mt-4 text-[11px] tracking-[2px] text-gold uppercase hover:text-gold-light transition-colors">
+            {t('section.learnMore')}
+          </a>
+        </div>
+
+        <!-- Music -->
+        <div class="p-8">
+          <div class="w-full h-40 bg-gradient-to-br from-[#2e1a1a] to-[#4e2a2a] mb-4 flex items-center justify-center">
+            <span class="text-white/20 text-xs tracking-[2px]">MUSIC IMAGE</span>
+          </div>
+          <h3 class="font-heading text-xl text-dark-navy mb-2">{t('section.music')}</h3>
+          <p class="text-sm text-text-subtle leading-relaxed">{t('section.musicDesc')}</p>
+          <a href={getLocalizedPath('/music', lang)} class="inline-block mt-4 text-[11px] tracking-[2px] text-gold uppercase hover:text-gold-light transition-colors">
+            {t('section.learnMore')}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News & Blog Section -->
+  <section class="bg-dark-navy py-16 md:py-20 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-10">
+        <span class="text-[10px] tracking-[4px] uppercase text-gold">{t('section.latest')}</span>
+        <h2 class="font-heading text-2xl text-white mt-2">{t('section.news')}</h2>
+      </div>
+
+      {latestPosts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {latestPosts.map((post) => (
+            <a href={getLocalizedPath(`/blog/${post.id}`, lang)} class="bg-white/5 border border-white/5 p-5 hover:bg-white/10 transition-colors group">
+              <div class="text-[10px] text-gold tracking-wider">
+                {new Date(post.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: '2-digit' })}
+              </div>
+              <div class="text-sm text-white mt-2 group-hover:text-gold transition-colors">{post.data.title}</div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white/5 border border-white/5 p-5">
+            <div class="text-[10px] text-gold tracking-wider">2025.03</div>
+            <div class="text-sm text-white mt-2">Coming soon...</div>
+          </div>
+        </div>
+      )}
+
+      <div class="text-center mt-8">
+        <a href={getLocalizedPath('/blog', lang)} class="text-[11px] tracking-[2px] text-gold/60 uppercase hover:text-gold transition-colors">
+          View All →
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

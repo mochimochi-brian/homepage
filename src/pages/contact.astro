@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getLangFromUrl } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<BaseLayout title="Contact" description="連絡先">
+  <PageHeader title="Contact" />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-md mx-auto text-center reveal">
+      <div class="space-y-6">
+        <div>
+          <div class="text-[10px] tracking-[3px] uppercase text-gold mb-2">Email</div>
+          <p class="text-sm text-text-subtle">burai.murayama [at] eis.hokudai.ac.jp</p>
+        </div>
+
+        <div>
+          <div class="text-[10px] tracking-[3px] uppercase text-gold mb-2">
+            {lang === 'ja' ? '所属' : 'Affiliation'}
+          </div>
+          <p class="text-sm text-text-subtle">
+            {lang === 'ja'
+              ? '北海道大学大学院 総合化学院 量子化学研究室'
+              : 'Quantum Chemistry Lab, Graduate School of Chemical Sciences and Engineering, Hokkaido University'}
+          </p>
+        </div>
+
+        <div class="pt-4">
+          <div class="text-[10px] tracking-[3px] uppercase text-gold mb-3">Links</div>
+          <div class="flex justify-center gap-6">
+            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-sm text-text-subtle hover:text-gold transition-colors">
+              GitHub
+            </a>
+            <a href="https://scholar.google.com/" target="_blank" rel="noopener noreferrer" class="text-sm text-text-subtle hover:text-gold transition-colors">
+              Google Scholar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

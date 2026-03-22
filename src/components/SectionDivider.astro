@@ -1,0 +1,18 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<div class:list={['flex items-center justify-center gap-5', className]}>
+  <div class="flex-1 max-w-[120px] h-px bg-gradient-to-r from-transparent to-gold"></div>
+  {label && (
+    <span class="text-[10px] tracking-[4px] uppercase text-gold">
+      {label}
+    </span>
+  )}
+  <div class="flex-1 max-w-[120px] h-px bg-gradient-to-l from-transparent to-gold"></div>
+</div>

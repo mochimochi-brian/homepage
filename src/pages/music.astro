@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const operaHistory = [
+  { year: '2025.03', title: 'ドン・ジョヴァンニ', titleEn: 'Don Giovanni', venue: 'hitaru' },
+  { year: '2024', title: 'アンドレア・シェニエ — 新聞売り役', titleEn: 'Andrea Chénier — Newspaper Seller', venue: '' },
+  { year: '2024', title: 'ジャンニ・スキッキ — グッチョ役', titleEn: 'Gianni Schicchi — Guccio', venue: '' },
+];
+---
+
+<BaseLayout title="Music" description="声楽活動・出演歴">
+  <PageHeader title="Music" subtitle={t('section.tenor')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Profile -->
+      <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 mb-16 reveal">
+        <div class="w-44 h-56 bg-dark-navy mx-auto md:mx-0 flex items-center justify-center">
+          <span class="text-white/20 text-xs tracking-[2px]">PORTRAIT</span>
+        </div>
+        <div>
+          <h3 class="font-heading text-xl text-dark-navy mb-3">
+            {lang === 'ja' ? '声楽歴' : 'Vocal Career'}
+          </h3>
+          <p class="text-sm text-text-subtle leading-relaxed">
+            {lang === 'ja'
+              ? '14歳より声楽を学ぶ。北海道大学合唱団テノール陣リーダーとして全日本合唱コンクール金賞受賞に貢献。ボストンのニューイングランド音楽院にて Jean Danton 氏に短期師事。礼拝歌手として教会でも活動。現在、岡元敦司・常森寿子 両氏に師事。'
+              : 'Started vocal training at age 14. Led the tenor section of the Hokkaido University Chorus to a Gold Prize at the All-Japan Choral Competition. Studied briefly with Jean Danton at the New England Conservatory in Boston, also serving as a church singer. Currently studying under Atsushi Okamoto and Hisako Tsunemori.'}
+          </p>
+        </div>
+      </div>
+
+      <!-- Opera History -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Opera & Concert History
+        </h3>
+        <div class="space-y-3">
+          {operaHistory.map((item) => (
+            <div class="grid grid-cols-[80px_1fr] gap-4 text-sm">
+              <span class="text-gold font-bold">{item.year}</span>
+              <span class="text-text-subtle">
+                {lang === 'ja' ? item.title : item.titleEn}
+                {item.venue && <span class="text-text-muted"> ({item.venue})</span>}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

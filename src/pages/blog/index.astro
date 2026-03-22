@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../../i18n/utils';
+import { getCollection } from 'astro:content';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter((p) => !p.data.draft && p.data.lang === lang)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+---
+
+<BaseLayout title="Blog" description="研究・音楽に関する記事">
+  <PageHeader title="Blog" subtitle={t('section.thoughts')} />
+
+  <section class="bg-ivory py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <!-- Category filters -->
+      <div class="flex gap-3 mb-8 reveal">
+        <span class="text-[11px] bg-dark-navy text-white px-3 py-1 rounded-full cursor-pointer">
+          {t('blog.all')}
+        </span>
+        <span class="text-[11px] bg-white text-text-subtle px-3 py-1 rounded-full border border-dark-navy/10 cursor-pointer hover:bg-dark-navy hover:text-white transition-colors">
+          {t('blog.research')}
+        </span>
+        <span class="text-[11px] bg-white text-text-subtle px-3 py-1 rounded-full border border-dark-navy/10 cursor-pointer hover:bg-dark-navy hover:text-white transition-colors">
+          {t('blog.music')}
+        </span>
+      </div>
+
+      <!-- Posts -->
+      <div class="space-y-4 reveal">
+        {posts.map((post) => (
+          <a href={getLocalizedPath(`/blog/${post.id}`, lang)} class="block bg-white p-5 hover:shadow-md transition-shadow group">
+            <div class="grid grid-cols-[100px_1fr] gap-4">
+              <div class="h-20 bg-ivory flex items-center justify-center">
+                <span class="text-text-muted text-[10px]">{post.data.category.toUpperCase()}</span>
+              </div>
+              <div>
+                <div class="text-[10px] text-gold mb-1">
+                  {new Date(post.data.date).toLocaleDateString(lang === 'ja' ? 'ja-JP' : 'en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+                  {' — '}
+                  <span class="capitalize">{post.data.category}</span>
+                </div>
+                <h3 class="text-sm font-bold text-dark-navy group-hover:text-gold transition-colors">
+                  {post.data.title}
+                </h3>
+                <p class="text-[12px] text-text-muted mt-1 line-clamp-1">{post.data.description}</p>
+              </div>
+            </div>
+          </a>
+        ))}
+
+        {posts.length === 0 && (
+          <p class="text-sm text-text-muted text-center py-8">
+            {lang === 'ja' ? '記事はまだありません。' : 'No posts yet.'}
+          </p>
+        )}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

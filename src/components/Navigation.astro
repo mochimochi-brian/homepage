@@ -1,0 +1,115 @@
+---
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { key: 'nav.home' as const, path: '/' },
+  { key: 'nav.about' as const, path: '/about' },
+  { key: 'nav.research' as const, path: '/research' },
+  { key: 'nav.music' as const, path: '/music' },
+  { key: 'nav.events' as const, path: '/events' },
+  { key: 'nav.blog' as const, path: '/blog' },
+  { key: 'nav.contact' as const, path: '/contact' },
+];
+
+function isActive(path: string): boolean {
+  const localized = getLocalizedPath(path, lang);
+  if (path === '/') return currentPath === localized || currentPath === '/en' || currentPath === '/en/';
+  return currentPath.startsWith(localized);
+}
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-deep-black/80 backdrop-blur-sm border-b border-white/5">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-center gap-7">
+    {navItems.map((item) => (
+      <a
+        href={getLocalizedPath(item.path, lang)}
+        class:list={[
+          'text-[11px] tracking-[3px] uppercase transition-colors duration-300',
+          isActive(item.path) ? 'text-gold' : 'text-white/50 hover:text-white/80',
+        ]}
+      >
+        {t(item.key)}
+      </a>
+    ))}
+    <span class="border-l border-white/20 pl-4 ml-2">
+      {lang === 'ja' ? (
+        <a href={`/en${currentPath}`} class="text-[11px] tracking-[2px] text-white/30 hover:text-white/60 transition-colors">
+          EN
+        </a>
+      ) : (
+        <a href={currentPath.replace(/^\/en/, '') || '/'} class="text-[11px] tracking-[2px] text-white/30 hover:text-white/60 transition-colors">
+          JP
+        </a>
+      )}
+    </span>
+  </div>
+
+  <!-- Mobile menu button -->
+  <button
+    id="mobile-menu-btn"
+    class="md:hidden fixed top-4 right-4 z-60 text-white/70 hover:text-white p-2"
+    aria-label="メニュー"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+</nav>
+
+<!-- Mobile menu overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-deep-black/95 backdrop-blur-md hidden flex-col items-center justify-center gap-6">
+  {navItems.map((item) => (
+    <a
+      href={getLocalizedPath(item.path, lang)}
+      class:list={[
+        'text-sm tracking-[4px] uppercase transition-colors duration-300',
+        isActive(item.path) ? 'text-gold' : 'text-white/60 hover:text-white',
+      ]}
+    >
+      {t(item.key)}
+    </a>
+  ))}
+  <div class="mt-4 pt-4 border-t border-white/10">
+    {lang === 'ja' ? (
+      <a href={`/en${currentPath}`} class="text-sm tracking-[3px] text-white/40 hover:text-gold transition-colors">
+        English
+      </a>
+    ) : (
+      <a href={currentPath.replace(/^\/en/, '') || '/'} class="text-sm tracking-[3px] text-white/40 hover:text-gold transition-colors">
+        日本語
+      </a>
+    )}
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+    menu?.classList.toggle('flex');
+  });
+  menu?.addEventListener('click', (e) => {
+    if (e.target === menu) {
+      menu.classList.add('hidden');
+      menu.classList.remove('flex');
+    }
+  });
+</script>
+
+<style>
+  nav > div {
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  #mobile-menu-btn {
+    @media (min-width: 769px) {
+      display: none;
+    }
+  }
+</style>
