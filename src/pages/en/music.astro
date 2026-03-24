@@ -6,10 +6,95 @@ import { getLangFromUrl, useTranslations } from '../../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const operaHistory = [
-  { year: '2025.03', title: 'Don Giovanni', venue: 'hitaru' },
-  { year: '2024', title: 'Andrea Chénier — Newspaper Seller', venue: '' },
-  { year: '2024', title: 'Gianni Schicchi — Guccio', venue: '' },
+const performanceHistory = [
+  {
+    date: '2025.09',
+    title: 'Dosanco Copera Concert',
+    detail: '',
+  },
+  {
+    date: '2025.08',
+    title: 'Nano-Pharmaceutical Opening Ceremony',
+    detail: 'Tosti works',
+  },
+  {
+    date: '2025.07',
+    title: 'Dear People Concert Vol.20',
+    detail: 'Mozart: from Idomeneo',
+  },
+  {
+    date: '2025.06',
+    title: 'Dosanco Copera 7th "Happily Italian Songs"',
+    detail: 'Caldara and Tosti selections',
+  },
+  {
+    date: '2025.05',
+    title: 'LC Armonica 27th Tokeidai Concert',
+    detail: 'Mozart arias from Don Giovanni',
+  },
+  {
+    date: '2025.05',
+    title: '3rd Primavera Vocal Concorso — Final',
+    detail: '',
+  },
+  {
+    date: '2025.04',
+    title: '3rd Primavera Vocal Concorso — Semi-Final',
+    detail: 'Advanced to finals',
+  },
+  {
+    date: '2025.03',
+    title: '2nd Hitaru Opera Project "Don Giovanni"',
+    detail: 'Chorus & Commendatore understudy',
+  },
+  {
+    date: '2024.11',
+    title: 'Hokkaido Nikikai 60th Anniversary "Die Fledermaus"',
+    detail: 'Chorus',
+  },
+  {
+    date: '2024.10–11',
+    title: 'Roxbury Presbyterian Church Services',
+    detail: 'Handel and spirituals (Boston, USA)',
+  },
+  {
+    date: '2024.09',
+    title: 'Dosanco Copera 5th "New Wave Concert 2024"',
+    detail: 'Yamada Kōsaku and Liszt works',
+  },
+  {
+    date: '2024.01',
+    title: 'LC Armonica 20th Anniversary "Andrea Chénier"',
+    detail: 'Role: Newspaper Seller',
+  },
+  {
+    date: '2023.11',
+    title: 'MitoProMusica Hot November Vol.16',
+    detail: 'Bach: "Credo: Et in Spiritum Sanctum" from Mass in B minor',
+  },
+  {
+    date: '2023.06',
+    title: 'Office Libellure "Tosca"',
+    detail: 'Chorus',
+  },
+  {
+    date: '2022.12',
+    title: 'MitoPera 1st Production "Gianni Schicchi"',
+    detail: 'Role: Guccio (lecture concert format)',
+  },
+  {
+    date: '2020.01',
+    title: '11th Tomakomai New Artist Music Concert',
+    detail: 'Vivaldi: "Un certo non so che"',
+  },
+];
+
+const awards = [
+  '8th Competition Schule: Grand Mezzo ② Division Excellent Award & TV Hokkaido Award',
+  '69th & 75th All Japan Student Music Competition: Hokkaido Division Selection',
+  '33rd Classical Music Competition: National Tournament Selection',
+  '3rd Primavera Vocal Concorso: Finalist',
+  'All-Japan Choral Competition Gold Prize (as Hokkaido Univ. Chorus Tenor Leader)',
 ];
 ---
 
@@ -31,19 +116,35 @@ const operaHistory = [
         </div>
       </div>
 
-      <!-- Opera History -->
+      <!-- Awards -->
+      <div class="mb-16 reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Awards & Competitions
+        </h3>
+        <ul class="space-y-2">
+          {awards.map((award) => (
+            <li class="text-sm text-text-subtle pl-4 border-l-2 border-gold/40">
+              {award}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Performance History -->
       <div class="reveal">
         <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
-          Opera & Concert History
+          Performance History
         </h3>
         <div class="space-y-3">
-          {operaHistory.map((item) => (
+          {performanceHistory.map((item) => (
             <div class="grid grid-cols-[80px_1fr] gap-4 text-sm">
-              <span class="text-gold font-bold">{item.year}</span>
-              <span class="text-text-subtle">
-                {item.title}
-                {item.venue && <span class="text-text-muted"> ({item.venue})</span>}
-              </span>
+              <span class="text-gold font-bold text-[13px]">{item.date}</span>
+              <div>
+                <span class="text-dark-navy font-medium">{item.title}</span>
+                {item.detail && (
+                  <span class="text-text-muted text-[12px] block mt-0.5">{item.detail}</span>
+                )}
+              </div>
             </div>
           ))}
         </div>

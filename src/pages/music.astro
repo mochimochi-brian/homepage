@@ -6,10 +6,142 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const operaHistory = [
-  { year: '2025.03', title: 'ドン・ジョヴァンニ', titleEn: 'Don Giovanni', venue: 'hitaru' },
-  { year: '2024', title: 'アンドレア・シェニエ — 新聞売り役', titleEn: 'Andrea Chénier — Newspaper Seller', venue: '' },
-  { year: '2024', title: 'ジャンニ・スキッキ — グッチョ役', titleEn: 'Gianni Schicchi — Guccio', venue: '' },
+const performanceHistory = [
+  {
+    date: '2025.09',
+    title: 'どさんコペラ・コンサート',
+    titleEn: 'Dosanco Copera Concert',
+    detail: '',
+    detailEn: '',
+  },
+  {
+    date: '2025.08',
+    title: 'ナノ薬科開設記念式典',
+    titleEn: 'Nano-Pharmaceutical Opening Ceremony',
+    detail: 'トスティ 作品を演奏',
+    detailEn: 'Tosti works',
+  },
+  {
+    date: '2025.07',
+    title: '親愛なる人々のコンサート Vol.20',
+    titleEn: 'Dear People Concert Vol.20',
+    detail: 'モーツァルト「イドメネオ」より',
+    detailEn: 'Mozart: from Idomeneo',
+  },
+  {
+    date: '2025.06',
+    title: 'どさんコペラ 第7回公演「ハッピリー・イタリアン・ソングス」',
+    titleEn: 'Dosanco Copera 7th "Happily Italian Songs"',
+    detail: 'カルダーラ、トスティ 作品を演奏',
+    detailEn: 'Caldara and Tosti selections',
+  },
+  {
+    date: '2025.05',
+    title: 'LCアルモニカ 第27回 時計台コンサート',
+    titleEn: 'LC Armonica 27th Tokeidai Concert',
+    detail: 'モーツァルト「ドン・ジョヴァンニ」よりアリア',
+    detailEn: 'Mozart arias from Don Giovanni',
+  },
+  {
+    date: '2025.05',
+    title: '第3回プリマヴェーラ声楽コンコルソ 決勝',
+    titleEn: '3rd Primavera Vocal Concorso — Final',
+    detail: '',
+    detailEn: '',
+  },
+  {
+    date: '2025.04',
+    title: '第3回プリマヴェーラ声楽コンコルソ 準決勝',
+    titleEn: '3rd Primavera Vocal Concorso — Semi-Final',
+    detail: '決勝進出',
+    detailEn: 'Advanced to finals',
+  },
+  {
+    date: '2025.03',
+    title: '第2回 hitaruオペラプロジェクト「ドン・ジョヴァンニ」',
+    titleEn: '2nd Hitaru Opera Project "Don Giovanni"',
+    detail: '合唱・騎士長役アンダースタディ',
+    detailEn: 'Chorus & Commendatore understudy',
+  },
+  {
+    date: '2024.11',
+    title: '北海道二期会 創立60周年記念公演「こうもり」',
+    titleEn: 'Hokkaido Nikikai 60th Anniversary "Die Fledermaus"',
+    detail: '合唱',
+    detailEn: 'Chorus',
+  },
+  {
+    date: '2024.10–11',
+    title: 'Roxbury Presbyterian Church 礼拝',
+    titleEn: 'Roxbury Presbyterian Church Services',
+    detail: 'ヘンデル、スピリチュアルを演奏（ボストン）',
+    detailEn: 'Handel and spirituals (Boston, USA)',
+  },
+  {
+    date: '2024.09',
+    title: 'どさんコペラ 第5回公演「New Wave Concert 2024」',
+    titleEn: 'Dosanco Copera 5th "New Wave Concert 2024"',
+    detail: '山田耕筰、リスト 作品を演奏',
+    detailEn: 'Yamada Kōsaku and Liszt works',
+  },
+  {
+    date: '2024.01',
+    title: 'LCアルモニカ 20周年記念「アンドレア・シェニエ」',
+    titleEn: 'LC Armonica 20th Anniversary "Andrea Chénier"',
+    detail: '新聞売り役',
+    detailEn: 'Role: Newspaper Seller',
+  },
+  {
+    date: '2023.11',
+    title: 'MitoProMusica の Hot November Vol.16',
+    titleEn: 'MitoProMusica Hot November Vol.16',
+    detail: 'バッハ「ミサ曲ロ短調」より Credo: Et in Spiritum Sanctum',
+    detailEn: 'Bach: "Credo: Et in Spiritum Sanctum" from Mass in B minor',
+  },
+  {
+    date: '2023.06',
+    title: 'Office Libellure「トスカ」',
+    titleEn: 'Office Libellure "Tosca"',
+    detail: '合唱',
+    detailEn: 'Chorus',
+  },
+  {
+    date: '2022.12',
+    title: 'MitoPera 第1回公演「ジャンニ・スキッキ」',
+    titleEn: 'MitoPera 1st Production "Gianni Schicchi"',
+    detail: 'グッチョ役（レクチャーコンサート形式）',
+    detailEn: 'Role: Guccio (lecture concert format)',
+  },
+  {
+    date: '2020.01',
+    title: '第11回苫小牧新進音楽家演奏会',
+    titleEn: '11th Tomakomai New Artist Music Concert',
+    detail: 'ヴィヴァルディ「Un certo non so che」',
+    detailEn: 'Vivaldi: "Un certo non so che"',
+  },
+];
+
+const awards = [
+  {
+    title: '第8回コンクールシューレ 声楽グランミューズ②部門 部門優秀賞・テレビ北海道賞',
+    titleEn: '8th Competition Schule: Grand Mezzo ② Division Excellent Award & TV Hokkaido Award',
+  },
+  {
+    title: '第69回・第75回全日本学生音楽コンクール 北海道大会 入選',
+    titleEn: '69th & 75th All Japan Student Music Competition: Hokkaido Division Selection',
+  },
+  {
+    title: '第33回クラシック音楽コンクール 全国大会 入選',
+    titleEn: '33rd Classical Music Competition: National Tournament Selection',
+  },
+  {
+    title: '第3回プリマヴェーラ声楽コンコルソ 決勝進出',
+    titleEn: '3rd Primavera Vocal Concorso: Finalist',
+  },
+  {
+    title: '全日本合唱コンクール 金賞（北大合唱団テノールリーダーとして）',
+    titleEn: 'All-Japan Choral Competition Gold Prize (as Hokkaido Univ. Chorus Tenor Leader)',
+  },
 ];
 ---
 
@@ -35,19 +167,39 @@ const operaHistory = [
         </div>
       </div>
 
-      <!-- Opera History -->
+      <!-- Awards -->
+      <div class="mb-16 reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          {lang === 'ja' ? '受賞・入選歴' : 'Awards & Competitions'}
+        </h3>
+        <ul class="space-y-2">
+          {awards.map((award) => (
+            <li class="text-sm text-text-subtle pl-4 border-l-2 border-gold/40">
+              {lang === 'ja' ? award.title : award.titleEn}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Performance History -->
       <div class="reveal">
         <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
-          Opera & Concert History
+          {lang === 'ja' ? '出演歴' : 'Performance History'}
         </h3>
         <div class="space-y-3">
-          {operaHistory.map((item) => (
+          {performanceHistory.map((item) => (
             <div class="grid grid-cols-[80px_1fr] gap-4 text-sm">
-              <span class="text-gold font-bold">{item.year}</span>
-              <span class="text-text-subtle">
-                {lang === 'ja' ? item.title : item.titleEn}
-                {item.venue && <span class="text-text-muted"> ({item.venue})</span>}
-              </span>
+              <span class="text-gold font-bold text-[13px]">{item.date}</span>
+              <div>
+                <span class="text-dark-navy font-medium">
+                  {lang === 'ja' ? item.title : item.titleEn}
+                </span>
+                {(lang === 'ja' ? item.detail : item.detailEn) && (
+                  <span class="text-text-muted text-[12px] block mt-0.5">
+                    {lang === 'ja' ? item.detail : item.detailEn}
+                  </span>
+                )}
+              </div>
             </div>
           ))}
         </div>

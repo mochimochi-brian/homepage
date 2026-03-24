@@ -2,30 +2,13 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import { getPublications, getPresentations } from '../../lib/researchmap';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const publications = [
-  {
-    title: 'New Descriptors of Potential Energy Surface: Persistent Homology of Reaction Route Map',
-    journal: 'J. Comput. Chem. Jpn.',
-    year: 2024,
-    doi: 'https://doi.org/10.2477/jccj.2024-0015',
-  },
-  {
-    title: 'Reproducing the Reaction Route Map on the Shape Space',
-    journal: 'J. Chem. Theory Comput.',
-    year: 2023,
-    doi: 'https://doi.org/10.1021/acs.jctc.3c00834',
-  },
-  {
-    title: 'Characterizing Reaction Route Map of Realistic Molecular Reactions',
-    journal: 'J. Chem. Theory Comput.',
-    year: 2023,
-    doi: 'https://doi.org/10.1021/acs.jctc.3c00487',
-  },
-];
+const publications = await getPublications();
+const presentations = await getPresentations();
 ---
 
 <BaseLayout title="Research" description="Research overview and publications">
@@ -42,18 +25,30 @@ const publications = [
       </div>
 
       <!-- Publications -->
-      <div class="reveal">
+      <div class="mb-16 reveal">
         <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
           Publications
         </h3>
+        <p class="text-[10px] text-text-muted mb-4 tracking-[1px]">
+          Auto-fetched from researchmap ({publications.length} items)
+        </p>
         <div class="space-y-4">
           {publications.map((pub) => (
             <div class="bg-white p-5 border-l-[3px] border-gold">
-              <h4 class="text-sm font-bold text-dark-navy leading-snug">{pub.title}</h4>
-              <p class="text-[11px] text-text-muted mt-2">{pub.journal}, {pub.year}</p>
+              <h4 class="text-sm font-bold text-dark-navy leading-snug">
+                {pub.title.en || pub.title.ja}
+              </h4>
+              <p class="text-[11px] text-text-muted mt-2">
+                {pub.journal}
+                {pub.volume && `, ${pub.volume}`}
+                {pub.number && `(${pub.number})`}
+                {pub.startPage && `, ${pub.startPage}`}
+                {pub.endPage && `–${pub.endPage}`}
+                {` (${pub.year})`}
+              </p>
               {pub.doi && (
                 <a
-                  href={pub.doi}
+                  href={`https://doi.org/${pub.doi}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="inline-block mt-2 text-[10px] tracking-[1px] text-gold hover:text-gold-light transition-colors"
@@ -64,6 +59,49 @@ const publications = [
             </div>
           ))}
         </div>
+      </div>
+
+      <!-- Presentations -->
+      <div class="reveal">
+        <h3 class="font-heading text-xl text-dark-navy mb-6 pb-3 border-b border-dark-navy/10">
+          Presentations
+        </h3>
+        <div class="space-y-3">
+          {presentations.map((pres) => (
+            <div class="bg-white p-4 border-l-[3px] border-dark-navy/20">
+              <h4 class="text-sm font-bold text-dark-navy leading-snug">
+                {pres.title.en || pres.title.ja}
+              </h4>
+              <p class="text-[11px] text-text-muted mt-1">
+                {pres.event}, {pres.year}
+              </p>
+              <div class="flex gap-2 mt-2">
+                {pres.isInternational && (
+                  <span class="text-[9px] tracking-[1px] px-2 py-0.5 bg-gold/10 text-gold border border-gold/20">
+                    INTERNATIONAL
+                  </span>
+                )}
+                {pres.isInvited && (
+                  <span class="text-[9px] tracking-[1px] px-2 py-0.5 bg-dark-navy/10 text-dark-navy border border-dark-navy/20">
+                    INVITED
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- researchmap link -->
+      <div class="mt-12 text-center reveal">
+        <a
+          href="https://researchmap.jp/burai"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block text-[11px] tracking-[2px] text-gold hover:text-gold-light transition-colors border-b border-gold/30 pb-1"
+        >
+          View all on researchmap →
+        </a>
       </div>
     </div>
   </section>
